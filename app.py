@@ -19,8 +19,6 @@ config.read("config.ini")
 line_bot_api = LineBotApi(config['line_bot']['Channel_Access_Token'])
 handler = WebhookHandler(config['line_bot']['Channel_Secret'])
 
-r = requests.get('http://www.hko.gov.hk/contentc.htm')
-
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
@@ -40,6 +38,7 @@ def callback():
     return 'ok'
 
 def weather():
+    r = requests.get('http://www.hko.gov.hk/contentc.htm')
     print(r.url)
     return content
 
