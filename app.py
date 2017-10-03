@@ -1,8 +1,4 @@
-from bs4 import BeautifulSoup
 from flask import Flask, request, abort
-import json
-import sys
-import requests
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -10,7 +6,9 @@ from linebot import (
 from linebot.exceptions import (
     InvalidSignatureError
 )
-from linebot.models import *
+from linebot.models import (
+    MessageEvent, TextMessage, TextSendMessage,
+)
 
 app = Flask(__name__)
 config = configparser.ConfigParser()
@@ -18,7 +16,7 @@ config.read("config.ini")
 
 line_bot_api = LineBotApi(config['line_bot']['Channel_Access_Token'])
 handler = WebhookHandler(config['line_bot']['Channel_Secret'])
-
+# 設定你接收訊息的網址，如 https://YOURAPP.herokuapp.com/callback
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
@@ -26,8 +24,7 @@ def callback():
 
     # get request body as text
     body = request.get_data(as_text=True)
-    # print("body:",body)
-    app.logger.info("Request body: " + body)
+    print("Request body: " + body, "Signature: " + signature)
 
     # handle webhook body
     try:
@@ -35,16 +32,17 @@ def callback():
     except InvalidSignatureError:
         abort(400)
 
-    return 'ok'
+    return 'OK'
 
-def weather():
-    r = requests.get('http://www.hko.gov.hk/contentc.htm')
-    print(r.url)
-    return content
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-   print(helloworld)
-    
-if __name__ == '__main__':
-    app.run()
+    print("Handle: reply_token: " + event.reply_token + ", message: " + event.message.text)
+    content = "{}: {}".format(event.source.user_id, event.message.text)
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=content))
+
+import os
+if __name__ == "__main__":
+    app.run(host='0.0.0.0',port=os.environ['PORT'])
