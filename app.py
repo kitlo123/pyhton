@@ -52,7 +52,7 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=content))
-        return 0
+        return content
     
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
