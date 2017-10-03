@@ -34,14 +34,14 @@ def callback():
 
 def weather():
     r = requests.get('http://www.hko.gov.hk/contentc.htm')
-    print(r.url)
+    print"r.url"
     return content
 
 def test():
-    print(helloworld)
+    print"helloworld"
     return content
 def mid():
-    print(event.source.user_id)
+    print"event.source.user_id"
     return content
 
 @handler.add(MessageEvent, message=TextMessage)
