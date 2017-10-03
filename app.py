@@ -34,13 +34,15 @@ def callback():
 
 def weather():
     r = requests.get('http://www.hko.gov.hk/contentc.htm')
-    return (r.url)
+    print(r.url)
+    return weather
 
 def test():
-    return (helloworld)
-
+    print(helloworld)
+    return test
 def mid():
-    return (event.source.user_id)
+    print(event.source.user_id)
+    return mid
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
@@ -51,19 +53,19 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=content))
-        return (r.url)           
+        return 0           
     if event.message.text == "test":
         content = test()
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=content))
-        return (helloworld)           
+        return 0           
     if event.message.text == "mid":
         content = mid()
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=content))
-        return (event.source.user_id)           
+        return 0           
                           
 import os
 if __name__ == "__main__":
