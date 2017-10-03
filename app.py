@@ -44,14 +44,7 @@ def weather():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    print("event.reply_token:", event.reply_token)
-    print("event.message.text:", event.message.text)
-    if event.message.text == "weather":
-        content = weather()
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=content))
-        return content
+   print(helloworld)
     
 if __name__ == '__main__':
     app.run()
