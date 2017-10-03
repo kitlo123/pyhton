@@ -11,12 +11,11 @@ from linebot.models import (
 )
 
 app = Flask(__name__)
-config = configparser.ConfigParser()
-config.read("config.ini")
 
-line_bot_api = LineBotApi(config['line_bot']['Channel_Access_Token'])
-handler = WebhookHandler(config['line_bot']['Channel_Secret'])
-# 設定你接收訊息的網址，如 https://YOURAPP.herokuapp.com/callback
+line_bot_api = LineBotApi('6mhWDA80SLI3E3p9UyvvGDltMxEb+N8nLRmGpjqE2VcapsqY6UOhvqy06Vv5Ej8italns1wQ4WBSAOBT79iwXJDelGXct2ZZKIp5IEIF7iXJBA/0NZpHNxAnUR1HNibGuAX7+AYKjpLgAyypTZELDwdB04t89/1O/w1cDnyilFU=
+')
+handler = WebhookHandler('aa52674268490bace3c531f5c98eeb1a')
+
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
