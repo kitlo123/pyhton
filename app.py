@@ -8,6 +8,10 @@ from linebot.exceptions import (
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
 )
+import errno
+import sys
+import tempfile
+from argparse import ArgumentParser
 
 app = Flask(__name__)
 
@@ -134,13 +138,6 @@ def handle_text_message(event):
             TextSendMessage(text='Save file.'),
             TextSendMessage(text=request.host_url + os.path.join('static', 'tmp', dist_name))
         ])
-
-
-@handler.add(FollowEvent)
-def handle_follow(event):
-    line_bot_api.reply_message(
-        event.reply_token, TextSendMessage(text='Got follow event'))
-
 
 @handler.add(UnfollowEvent)
 def handle_unfollow():
