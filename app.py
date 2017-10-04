@@ -32,14 +32,80 @@ def callback():
 
     return 'OK'
 
+def _getProfile(self):
+        """Get profile information
+        :returns: Profile object
+                    - picturePath
+                    - displayName
+                    - phone (base64 encoded?)
+                    - allowSearchByUserid
+                    - pictureStatus
+                    - userid
+                    - mid # used for unique id for account
+                    - phoneticName
+                    - regionCode
+                    - allowSearchByEmail
+                    - email
+                    - statusMessage
+        """
+        return self._client.getProfile()
+
+ def _getContacts(self, ids):
+        """Get contact information list from ids
+        :returns: List of Contact list
+                    - status
+                    - capableVideoCall
+                    - dispalyName
+                    - settings
+                    - pictureStatus
+                    - capableVoiceCall
+                    - capableBuddy
+                    - mid
+                    - displayNameOverridden
+                    - relation
+                    - thumbnailUrl
+                    - createdTime
+                    - facoriteTime
+                    - capableMyhome
+                    - attributes
+                    - type
+                    - phoneticName
+                    - statusMessage
+        """
+        if type(ids) != list:
+            msg = "argument should be list of contact ids"
+            self.raise_error(msg)
+
+        return self._client.getContacts(ids)
+    
+def weather():
+    r = requests.get('http://www.hko.gov.hk/wxinfo/currwx/currentc.htm')
+    print(r.text)
+    x = r.text
+    return x
+
+def Test():
+    y = 'hello world'
+    return y
+
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    print("Handle: reply_token: " + event.reply_token + ", message: " + event.message.text)
-    content = "{}: {}".format(event.source.user_id, event.message.text)
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=content))                          
-                          
+    print("event.reply_token:", event.reply_token)
+    print("event.message.text:", event.message.text)
+    if event.message.text == "Test":
+        content = Test()
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=content))
+        return y
+
+if event.message.text == "weather":
+        content = weather()
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=content))
+        return x
+
 import os
 if __name__ == "__main__":
     app.run(host='0.0.0.0',port=os.environ['PORT'])
